@@ -2,8 +2,7 @@
 LCD16x02 첫 칸에 표시하는 아두이노 동작 상태 캐릭터 과제
 
 # 프로젝트 소개 
-이 프로젝트는 지렁이가 흙을 먹고 배설하며 땅을 다시 채우는 과정을 모티브로 하여 만든 순환형 로딩 애니메이션 입니다. 0에서 점점 채워지는 과정으로 로딩을 표현하는 보통의 틀에서 벗어나 꽉 채워진 화면에서 지렁이가 흙을 먹고 배설하는 과정으로 순환을 표현하여 로딩창을 나만의 방식으로 표현해봤어요.
-지렁이의 형체를 세밀하게 그리지 않고 흙이 비워지고 다시 채워지는 변화에 초점을 맞춰 작은 LCD 화면에서 지렁이를 단순한 픽셀로 표현해 관람자가 움직임을 상상하도록 했고 그 결과 로딩의 핵심인 작업이 진행 중이라는 느낌이 더 돋보이도록 구성해보았습니다.
+이 프로젝트는 Arduino와 16×2 I2C LCD를 이용해 지렁이의 움직임을 픽셀 애니메이션으로 표현보았다. 지렁이가 땅속의 흙을 먹고 토양 속을 한 바퀴 이동한 다음 배설하는 장면을 여러 개의 5×8 픽셀 패턴으로 나누어 나타내고 프레임이 약 100ms 간격으로 바뀌며, 픽셀 패턴의 전환으로 지렁이와 흙의 움직임을 표현했다. 포인트로는 지렁이가 땅속에서 흙을 먹고 토양을 한 바퀴 돈 뒤 배설하는 과정을 통해 순환을 표현하여 로딩 되는 과정을 강조하며 재밌게 로딩창 임을 어필하였다.
 
 # 사용 부품
 - Arduino [보드 모델 입력]
@@ -78,7 +77,7 @@ byte frames[][8] = {
     B00011,
     B00011,
     B00011,
-    B00011
+    B10111
   },
   {
     B11111,
@@ -87,8 +86,8 @@ byte frames[][8] = {
     B00011,
     B00011,
     B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111
   },
   {
     B11111,
@@ -96,191 +95,347 @@ byte frames[][8] = {
     B00011,
     B00011,
     B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111
   },
   {
     B01011,
     B00011,
     B00011,
     B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111,
+    B11111
   },
   {
     B00011,
     B00011,
     B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00001,
     B00011,
     B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00001,
     B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00001,
-    B00011,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B10111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00001,
-    B00011,
-    B00011,
-    B00011,
-    B00011
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00001,
-    B00011,
-    B00011,
-    B00011
+    B11010,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00001,
-    B00011,
-    B00011
+    B11000,
+    B11010,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00001,
-    B00011
+    B11000,
+    B11000,
+    B11010,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00001
+    B11000,
+    B11000,
+    B11000,
+    B11010,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   },
   {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000
+    B11101,
+    B11000,
+    B11000,
+    B11000,
+    B11010,
+    B11111,
+    B11111,
+    B11111
+  },
+  {
+    B11111,
+    B11101,
+    B11000,
+    B11000,
+    B11000,
+    B11010,
+    B11111,
+    B11111
+  },
+  {
+    B11111,
+    B11111,
+    B11101,
+    B11000,
+    B11000,
+    B11000,
+    B11010,
+    B11111
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11101,
+    B11000,
+    B11000,
+    B11000,
+    B11010
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11101,
+    B11000,
+    B11000,
+    B11000
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11101,
+    B11000,
+    B11000
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11101,
+    B11000
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11101
+  },
+  {
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111,
+    B11111
   }
 };
 
 const int frameCount = sizeof(frames) / sizeof(frames[0]);
-const unsigned long frameDelay = 200;
-const byte lcdColumn = 0;
-const byte lcdRow = 0;
+const unsigned long frameDelay = 100;
 
-void showFrame(int index) {
-  lcd.createChar(0, frames[index]);
-  lcd.setCursor(lcdColumn, lcdRow);
-  lcd.write((uint8_t)0);
-  delay(frameDelay);
+int currentFrame = 0;
+bool inverted = false;
+byte nextSlot = 0;
+
+unsigned long lastFrameTime = 0;
+
+void showFrame(int index, bool invertPixels) {
+  byte pattern[8];
+
+  for (byte row = 0; row < 8; row++) {
+    if (invertPixels) {
+      pattern[row] = frames[index][row] ^ B11111;
+    } else {
+      pattern[row] = frames[index][row];
+    }
+  }
+
+  lcd.createChar(nextSlot, pattern);
+  lcd.setCursor(0, 0);
+  lcd.write((uint8_t)nextSlot);
+
+  nextSlot ^= 1;
 }
 
 void setup() {
   lcd.init();
   lcd.backlight();
   lcd.clear();
+  lcd.noCursor();
+  lcd.noBlink();
+
+  showFrame(currentFrame, inverted);
+  lastFrameTime = millis();
 }
 
 void loop() {
-  for (int i = 0; i < frameCount; i++) {
-    showFrame(i);
-  }
+  unsigned long now = millis();
 
-  for (int i = frameCount - 2; i >= 1; i--) {
-    showFrame(i);
+  if (now - lastFrameTime >= frameDelay) {
+    lastFrameTime = now;
+
+    currentFrame++;
+
+    if (currentFrame >= frameCount) {
+      currentFrame = 0;
+      inverted = !inverted;
+    }
+
+    showFrame(currentFrame, inverted);
   }
 }
-# 주요 코드 설명 
-줄은 픽셀 입력이고 
 const int frameCount = sizeof(frames) / sizeof(frames[0]);
-const unsigned long frameDelay = 200;
-const byte lcdColumn = 0;
-const byte lcdRow = 0;
+const unsigned long frameDelay = 100;
 
-frameCount: 배열에 저장된 프레임 개수를 자동 계산
-frameDelay: 한 프레임을 200ms(0.2초) 동안 표시
-lcdColumn, lcdRow: 표시 위치를 첫째 줄, 첫 번째 글자로 지정
+int currentFrame = 0;
+bool inverted = false;
+byte nextSlot = 0;
 
-void showFrame(int index) {
-  lcd.createChar(0, frames[index]);
-  lcd.setCursor(lcdColumn, lcdRow);
-  lcd.write((uint8_t)0);
-  delay(frameDelay);
+unsigned long lastFrameTime = 0;
+
+frameCount: 배열에 저장된 프레임 수를 자동으로 계산함.
+frameDelay: 프레임 전환 간격을 100ms로 설정.
+currentFrame: 현재 표시할 프레임 번호입니다.
+inverted: 픽셀 반전 여부를 저장합니다.
+nextSlot: 다음 패턴을 등록할 사용자 정의 문자 슬롯입니다.
+lastFrameTime: 마지막 프레임 갱신 시간을 저장합니다.
+
+# 주요코드 설명
+// 1. 주요 변수 및 설정값
+const int frameCount = sizeof(frames) / sizeof(frames[0]); // 전체 프레임 수를 자동 계산함
+const unsigned long frameDelay = 100;                      // 프레임 전환 간격을 100ms로 설정함
+int currentFrame = 0;                                      // 현재 표시할 프레임 번호를 저장함
+bool inverted = false;                                     // 픽셀 반전 여부를 저장함
+byte nextSlot = 0;                                         // 사용자 정의 문자 슬롯 번호를 번갈아 저장함
+unsigned long lastFrameTime = 0;                           // 마지막 프레임 갱신 시간을 기록함
+
+// 2. showFrame() — 픽셀 반전 및 화면 출력
+void showFrame(int index, bool invertPixels) {
+  byte pattern[8];
+  for (byte row = 0; row < 8; row++) {
+    if (invertPixels) {
+      pattern[row] = frames[index][row] ^ B11111;          // 반전 모드 시 XOR 연산으로 0과 1을 뒤집음
+    } else {
+      pattern[row] = frames[index][row];                  // 원본 프레임 패턴을 유지함
+    }
+  }
+  lcd.createChar(nextSlot, pattern);                       // 패턴을 지정 슬롯에 등록함
+  lcd.setCursor(0, 0);                                     // 커서를 (0,0) 위치로 이동함
+  lcd.write((uint8_t)nextSlot);                            // 등록된 문자를 화면에 출력함
+  nextSlot ^= 1;                                           // 0번과 1번 슬롯을 교대하여 화면 깨짐을 방지함
 }
-딜레이 2초로 구현
 
+// 3. setup() — LCD 준비 및 첫 프레임 표시
 void setup() {
-  lcd.init();
+  lcd.init();                                              // LCD를 초기화하고 백라이트를 켬
   lcd.backlight();
-  lcd.clear();
+  lcd.clear();                                             // 화면을 지우고 커서 표시를 끔
+  lcd.noCursor();
+  lcd.noBlink();
+  showFrame(currentFrame, inverted);                       // 첫 번째 프레임을 출력함
+  lastFrameTime = millis();                                // 현재 시간을 저장하여 전환 기준을 설정함
 }
-전원을 켜면 한 번 실행되어 LCD 초기화 → 백라이트 켜기 → 화면 지우기를 수행
 
+// 4. loop() — 일정 간격 재생 및 바퀴당 반전
 void loop() {
-  for (int i = 0; i < frameCount; i++) {
-    showFrame(i);
-  }
+  unsigned long now = millis();
+  if (now - lastFrameTime >= frameDelay) {                 // 설정한 간격(100ms)마다 실행함
+    lastFrameTime = now;                                   // 갱신 시간을 업데이트함
+    currentFrame++;                                        // 다음 프레임으로 이동함
 
-  for (int i = frameCount - 2; i >= 1; i--) {
-    showFrame(i);
+    if (currentFrame >= frameCount) {                      // 한 바퀴를 다 돌면 첫 프레임으로 복귀함
+      currentFrame = 0;
+      inverted = !inverted;                                // 픽셀 반전 상태를 토글함
+    }
+
+    showFrame(currentFrame, inverted);                     // 변경된 프레임을 화면에 갱신함
   }
 }
-첫 번째 반복문은 처음부터 끝까지, 두 번째는 역순으로 재생하여 양 끝 프레임이 중복 표시되지 않도록 범위를 조정
- 흙이 비워졌다가 다시 채워지는 애니메이션을 계속 반복한다
+# 주요코드 설명
+1. 변수 및 설정값 선언
+
+sizeof 연산으로 frames 배열의 전체 프레임 수를 자동 계산함. frameDelay를 100ms로 설정해 프레임 전환 간격을 지정함. currentFrame에 현재 출력할 프레임 번호를 저장하고, inverted로 픽셀 반전 여부를 관리함. nextSlot은 CGRAM 슬롯 번호를 저장하며, lastFrameTime에 마지막 갱신 시각을 기록함.
+
+2. showFrame() — 픽셀 반전 및 화면 출력
+
+현재 프레임의 8개 행 데이터를 pattern 배열로 복사함. 반전 모드일 때는 ^ B11111 XOR 연산을 적용하여 가로 5픽셀의 0과 1을 뒤집음. lcd.createChar()로 패턴을 등록하고 (0, 0) 위치에 출력을 수행함. nextSlot ^= 1 연산으로 0번과 1번 슬롯을 교대로 사용하여 화면 수정 중 발생하는 깨짐 현상을 방지함.
+
+3. setup() — 초기화 및 첫 프레임 출력
+
+lcd.init()과 lcd.backlight()로 LCD를 초기화하고 백라이트를 켬. lcd.clear(), noCursor(), noBlink()를 실행해 커서를 숨기고 화면을 정리함. 원본 상태의 첫 프레임을 화면에 출력한 뒤, millis()로 현재 시간을 저장해 프레임 타이머의 기준점을 설정함.
+
+4. loop() — 애니메이션 재생 및 반전 토글
+
+millis()를 통해 이전 갱신 후 frameDelay(100ms) 이상 시간이 흐르면 실행함. 기준 시간을 업데이트하고 currentFrame을 1씩 증가시킴. 모든 프레임을 다 보여주면 번호를 0으로 되돌리고 inverted = !inverted로 반전 상태를 뒤집음. 변경된 값으로 showFrame()을 호출하여 화면을 지속적으로 갱신함.
+
  # 구현 영상 
-https://www.youtube.com/shorts/5YdHjdV1fU0
+
  # 고찰
- 이번 작업은 단순히 픽셀이 켜지고 꺼지는 동작으로 캐릭터의 움직임을 표현할 수 있다는 점에 중점을 뒀다 남들이 보이는 캐릭터를 사용할 때 반대로 캐릭터가 있지만 눈에는 잘보이지 않는다면 재미있을 것 같아 구현하였다
-첫 줄 첫 글자라는 아주 작은 공간은 표현의 한계였지만 동시에 어떤 부분을 살리고 무얼 덜어낼지 깊이 고민하게 만든 조건이었다. 지렁이의 형태를 정밀하게 그리는 대신 흙이 움직이는 변화를 통해 활동을 상징적으로 표현하여 한 칸 안에서 반복되는 애니메이션을 완성했다.
-단점으로는 설명 없이 처음 접하는 사람에게는 지렁이의 움직임이라기보다 그저 칸이 채워지고 비워지는 패턴으로 보일 수 있다. 그렇기에 동작이 반복된다는 직관적인 느낌과 그 동작이 지렁이라는 것을 알아채기 힘들어 보인다/
-코드 측면에서 현재 사용한 delay() 방식은 구현이 직관적이지만 프레임이 대기하는 동안 다른 연산을 처리하기 힘들다. 나중에 센서값 측정이나 버튼 입력을 동시에 처리하려면 millis() 기반의 비차단 방식으로 바꿀 필요가 있다. 이때 핵심 연산이 돌아가는 중에도 애니메이션이 매끄럽게 갱신되도록 만드는 것이 중요해 보인다
-움직임의 부드러움 또한 단순 프레임 수만으로 결정되지 않는다. 앞으로 프레임 간격을 조절하거나 변화가 큰 구간에 중간 프레임을 넣고 실제 LCD에서 잔상과 가독성을 직접 비교하며 최적의 속도를 찾으면 더 완성도가 높아질 것 같다.
+ 이번 프로젝트는 LCD의 첫 번째 칸이라는 작은 공간에서 지렁이가 흙을 먹고 땅속을 한 바퀴 돈 뒤 배설하는 모습을 픽셀의 변화로 표현하는 데 중점을 두었다. 지렁이 캐릭터를 그대로 그리는 대신, 흙이 채워지고 비워지는 패턴을 이용해 지렁이의 활동을 상징적으로 나타냈다. 제한된 화면 크기는 표현의 한계였지만, 어떤 변화를 보여 주고 어떤 세부 묘사를 덜어낼지 고민하게 해 주었다.
+
+다만 애니메이션의 의도를 모르는 사람에게는 지렁이의 움직임보다 단순히 칸이 채워지고 비워지는 패턴으로 보일 수 있다. 반복되는 동작이 지렁이의 먹이 활동과 배설을 의미한다는 점도 한눈에 알아채기 어렵다. 장면마다 변화가 더 분명하게 드러나도록 프레임을 다듬거나, 프로젝트 설명과 함께 보여 주면 의도를 전달하는 데 도움이 될 것 같다.
+
+코드에서는 millis()를 이용해 프레임 전환 시간을 확인하므로, delay()로 기다리는 동안 프로그램이 멈추는 방식보다 다른 작업을 함께 처리하기에 적합하다. 앞으로 버튼 입력이나 센서값 측정을 추가한다면, 애니메이션과 다른 기능이 동시에 자연스럽게 작동하는지 확인해 보고 싶다.
+
+애니메이션의 부드러움은 프레임 수뿐 아니라 프레임 간격과 각 장면의 변화에도 영향을 받는다. 다음에는 프레임 속도를 조절하고, 움직임이 크게 바뀌는 구간에 중간 프레임을 추가해 보고 싶다. 실제 LCD에서도 잔상과 패턴의 가독성을 비교해 가장 잘 보이는 속도를 찾는다면 프로젝트를 더 완성도 있게 발전시킬 수 있을 것이다.
