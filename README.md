@@ -354,14 +354,6 @@ byte nextSlot = 0;
 
 unsigned long lastFrameTime = 0;
 
-frameCount: 배열에 저장된 프레임 수를 자동으로 계산함.
-frameDelay: 프레임 전환 간격을 100ms로 설정.
-currentFrame: 현재 표시할 프레임 번호입니다.
-inverted: 픽셀 반전 여부를 저장합니다.
-nextSlot: 다음 패턴을 등록할 사용자 정의 문자 슬롯입니다.
-lastFrameTime: 마지막 프레임 갱신 시간을 저장합니다.
-
-
 # 주요코드 설명
 1. 변수 및 설정값 선언
 
