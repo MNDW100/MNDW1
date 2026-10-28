@@ -361,57 +361,7 @@ inverted: 픽셀 반전 여부를 저장합니다.
 nextSlot: 다음 패턴을 등록할 사용자 정의 문자 슬롯입니다.
 lastFrameTime: 마지막 프레임 갱신 시간을 저장합니다.
 
-# 주요코드 설명
-// 1. 주요 변수 및 설정값
-const int frameCount = sizeof(frames) / sizeof(frames[0]); // 전체 프레임 수를 자동 계산함
-const unsigned long frameDelay = 100;                      // 프레임 전환 간격을 100ms로 설정함
-int currentFrame = 0;                                      // 현재 표시할 프레임 번호를 저장함
-bool inverted = false;                                     // 픽셀 반전 여부를 저장함
-byte nextSlot = 0;                                         // 사용자 정의 문자 슬롯 번호를 번갈아 저장함
-unsigned long lastFrameTime = 0;                           // 마지막 프레임 갱신 시간을 기록함
 
-// 2. showFrame() — 픽셀 반전 및 화면 출력
-void showFrame(int index, bool invertPixels) {
-  byte pattern[8];
-  for (byte row = 0; row < 8; row++) {
-    if (invertPixels) {
-      pattern[row] = frames[index][row] ^ B11111;          // 반전 모드 시 XOR 연산으로 0과 1을 뒤집음
-    } else {
-      pattern[row] = frames[index][row];                  // 원본 프레임 패턴을 유지함
-    }
-  }
-  lcd.createChar(nextSlot, pattern);                       // 패턴을 지정 슬롯에 등록함
-  lcd.setCursor(0, 0);                                     // 커서를 (0,0) 위치로 이동함
-  lcd.write((uint8_t)nextSlot);                            // 등록된 문자를 화면에 출력함
-  nextSlot ^= 1;                                           // 0번과 1번 슬롯을 교대하여 화면 깨짐을 방지함
-}
-
-// 3. setup() — LCD 준비 및 첫 프레임 표시
-void setup() {
-  lcd.init();                                              // LCD를 초기화하고 백라이트를 켬
-  lcd.backlight();
-  lcd.clear();                                             // 화면을 지우고 커서 표시를 끔
-  lcd.noCursor();
-  lcd.noBlink();
-  showFrame(currentFrame, inverted);                       // 첫 번째 프레임을 출력함
-  lastFrameTime = millis();                                // 현재 시간을 저장하여 전환 기준을 설정함
-}
-
-// 4. loop() — 일정 간격 재생 및 바퀴당 반전
-void loop() {
-  unsigned long now = millis();
-  if (now - lastFrameTime >= frameDelay) {                 // 설정한 간격(100ms)마다 실행함
-    lastFrameTime = now;                                   // 갱신 시간을 업데이트함
-    currentFrame++;                                        // 다음 프레임으로 이동함
-
-    if (currentFrame >= frameCount) {                      // 한 바퀴를 다 돌면 첫 프레임으로 복귀함
-      currentFrame = 0;
-      inverted = !inverted;                                // 픽셀 반전 상태를 토글함
-    }
-
-    showFrame(currentFrame, inverted);                     // 변경된 프레임을 화면에 갱신함
-  }
-}
 # 주요코드 설명
 1. 변수 및 설정값 선언
 
