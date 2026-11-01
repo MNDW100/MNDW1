@@ -345,14 +345,6 @@ void loop() {
     showFrame(currentFrame, inverted);
   }
 }
-const int frameCount = sizeof(frames) / sizeof(frames[0]);
-const unsigned long frameDelay = 100;
-
-int currentFrame = 0;
-bool inverted = false;
-byte nextSlot = 0;
-
-unsigned long lastFrameTime = 0;
 ```
 # 주요코드 설명
 1. 변수 및 설정값 선언
