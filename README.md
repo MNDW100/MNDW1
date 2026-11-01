@@ -12,7 +12,7 @@ LCD16x02 첫 칸에 표시하는 아두이노 동작 상태 캐릭터 과제
 # 회로도
 <img width="1451" height="758" alt="스크린샷 2026-10-24 145030" src="https://github.com/user-attachments/assets/e3ca72ec-952b-4b39-a78a-c40669d3eebd" />
 # 구현 방식
-
+```cpp
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -353,7 +353,7 @@ bool inverted = false;
 byte nextSlot = 0;
 
 unsigned long lastFrameTime = 0;
-
+```
 # 주요코드 설명
 1. 변수 및 설정값 선언
 
