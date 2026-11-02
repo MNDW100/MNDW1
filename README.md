@@ -372,7 +372,11 @@ millis()를 통해 이전 갱신 후 frameDelay(100ms) 이상 시간이 흐르�
 ## 구현 영상
 
 
-Uploading 르르르.mp4…
+
+
+https://github.com/user-attachments/assets/fbda6807-2a71-4cb8-a3ca-15bbb47fda5b
+
+
 
 
 https://github.com/MNDW100/MNDW1/issues/2#issue-6083969308   https://github.com/MNDW100/MNDW1/issues/3#issue-6084106460
